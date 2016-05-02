@@ -11,9 +11,10 @@
 #SBATCH --partition=gpu
 #SBATCH --mem=8000
 
-xixi='learngglr1e-4fixed'
-iter_s=1300
-iter_e=2000
+xixi='scratchgglr1e-1fixed'
+iter_s=1000
+iter_e=10000
+iter_gap=1000
 
 cur_dir='/home-4/yixi@umd.edu/segnet/'
 work_dir='/scratch/groups/lsdavis/yixi/segnet/segnetf1/'
@@ -33,11 +34,14 @@ python ${work_dir}/test_segmentation_camvid.py\
 
 END
 
-for ((n=$iter_s; n<=$iter_e; n+=100))
+for ((n=$iter_s; n<=$iter_e; n+=${iter_gap}))
 do
 	
 	mkdir ${cur_dir}/inference/${xixi}_iter_${n}
-	python ${cur_dir}/compute_bn_statistics_lmdb.py ${work_dir}/segnet_basic_train.prototxt ${cur_dir}/snapshots/${xixi}_iter_${n}.caffemodel ${cur_dir}/inference/${xixi}_iter_${n}/
+	python ${cur_dir}/compute_bn_statistics_lmdb.py \
+		${work_dir}/segnet_basic_train.prototxt \
+		${work_dir}/snapshots/${xixi}_iter_${n}.caffemodel \
+		${cur_dir}/inference/${xixi}_iter_${n}/
 
 	rm ${cur_dir}/predictions/inf_${xixi}_iter_${n}/ -r -f
 	python ${work_dir}/test_segmentation_camvid.py\
