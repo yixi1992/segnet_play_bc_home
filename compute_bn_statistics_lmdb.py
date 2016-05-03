@@ -41,11 +41,17 @@ def make_testable(train_model_path):
             layer.top.append(layer.top[0] + "-var")
 
     # remove the test data layer if present
-    if train_net.layer[1].name == "data" and train_net.layer[1].include:
-        train_net.layer.remove(train_net.layer[1])
-        if train_net.layer[0].include:
-            # remove the 'include {phase: TRAIN}' layer param
-            train_net.layer[0].include.remove(train_net.layer[0].include[0])
+    for layer in train_net.layer:
+	if layer.type == "Data" and layer.include.phase==caffe_pb2.Phase.TEST:
+		train_net.remove(layer)
+	elif layer.type == "Data" and layer.include:
+		layer.include.remove(layer.include[0])
+		
+    #if train_net.layer[1].name == "data" and train_net.layer[1].include:
+    #    train_net.layer.remove(train_net.layer[1])
+    #    if train_net.layer[0].include:
+    #        # remove the 'include {phase: TRAIN}' layer param
+    #        train_net.layer[0].include.remove(train_net.layer[0].include[0])
     return train_net
 
 
