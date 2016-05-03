@@ -15,16 +15,16 @@ import caffe
 from caffe.proto import caffe_pb2
 from google.protobuf import text_format
 
-
-def extract_dataset(net_message):
-    assert net_message.layer[0].type == "DenseImageData"
-    source = net_message.layer[0].dense_image_data_param.source
-    with open(source) as f:
-        data = f.read().split()
-    ims = ImageCollection(data[::2])
-    labs = ImageCollection(data[1::2])
-    assert len(ims) == len(labs) > 0
-    return ims, labs
+#
+#def extract_dataset(net_message):
+#    assert net_message.layer[0].type == "DenseImageData"
+#    source = net_message.layer[0].dense_image_data_param.source
+#    with open(source) as f:
+#        data = f.read().split()
+#    ims = ImageCollection(data[::2])
+#    labs = ImageCollection(data[1::2])
+#    assert len(ims) == len(labs) > 0
+#    return ims, labs
 
 
 def make_testable(train_model_path):
@@ -41,12 +41,14 @@ def make_testable(train_model_path):
             layer.top.append(layer.top[0] + "-var")
 
     # remove the test data layer if present
+    to_remove_layers = []
     for layer in train_net.layer:
-	if layer.type == "Data" and layer.include.phase==caffe_pb2.Phase.TEST:
-		train_net.remove(layer)
+	if layer.type == "Data" and layer.include and layer.include[0].phase==1:
+		to_remove_layers.append(layer)
 	elif layer.type == "Data" and layer.include:
 		layer.include.remove(layer.include[0])
-		
+    for layer in to_remove_layers:
+	train_net.layer.remove(layer)
     #if train_net.layer[1].name == "data" and train_net.layer[1].include:
     #    train_net.layer.remove(train_net.layer[1])
     #    if train_net.layer[0].include:
