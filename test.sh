@@ -4,7 +4,6 @@
 #SBATCH -N 1
 #SBATCH -n 1
 #SBATCH --mail-user=yixi@cs.umd.edu
-#SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
 #SBATCH --job-name="test"
 #SBATCH --gres=gpu:1

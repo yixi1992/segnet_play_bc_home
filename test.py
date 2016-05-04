@@ -13,8 +13,53 @@ import sys
 sys.path.insert(0, caffe_root + 'python')
 import caffe
 
-
 if True:
+	net2 = caffe.Net('/home-4/yixi@umd.edu/work/yixi/segnet/segnetf1/segnet_basic_train.prototxt','/home-4/yixi@umd.edu/work/yixi/segnet/segnetf1/basic_camvid_surg.caffemodel', caffe.TEST)
+	net1 = caffe.Net('/home-4/yixi@umd.edu/work/yixi/segnet/segnetf1/segnet_basic_train.prototxt','/home-4/yixi@umd.edu/segnet/trainedrgb_surg.caffemodel',caffe.TEST)
+	net0 = caffe.Net('/home-4/yixi@umd.edu/segnet/segnet_basic_train_rgb.prototxt', '/home-4/yixi@umd.edu/segnet/snapshots/rgblr0.1_iter_8000.caffemodel',caffe.TEST)
+	for l in net1.params.keys():
+		print l
+		if l in net0.params.keys():
+			print np.sum((net1.params[l][0].data-net0.params[l][0].data)**2)
+		else:
+			np.save('debug/'+l+'_1', np.array(net1.params[l][0].data))
+	for l in net0.params.keys():
+		if not (l in net1.params.keys()):
+			np.save('debug/'+l+'_0', np.array(net0.params[l][0].data))
+
+	for b in net1.blobs.keys():
+		print b
+		if b in net0.blobs.keys() and net1.blobs[b].data.shape==net0.blobs[b].data.shape:
+			print np.sum((net1.blobs[b].data-net0.blobs[b].data)**2)
+		else:
+			np.save('debug/'+b+'_1', np.array(net1.blobs[b].data))
+	for b in net0.blobs.keys():
+		if not (b in net1.blobs.keys()) or net1.blobs[b].data.shape!=net0.blobs[b].data.shape:
+			np.save('debug/'+b+'_0', np.array(net0.blobs[b].data))
+
+
+
+
+if False:
+	net = caffe.Net('/home-4/yixi@umd.edu/work/yixi/segnet/segnetf1/segnet_basic_inference.prototxt','/home-4/yixi@umd.edu/segnet/inference/learnlr1e-3adagrad_1e-2adagrad_iter_13500/test_weights.caffemodel',caffe.TEST)
+	net.forward()
+	for l in net.params.keys():
+		print l, 'save to ', 'debug/'+l+'_test'
+		np.save('debug/'+l+'_test',np.array(net.params[l][0].data))
+
+if False:
+	net = caffe.Net('/home-4/yixi@umd.edu/work/yixi/segnet/segnetf1/segnet_basic_train.prototxt','/home-4/yixi@umd.edu/segnet/snapshots/learnlr1e-3adagrad_1e-2adagrad_iter_13500.caffemodel',caffe.TEST)
+	net.forward()
+	for l in net.params.keys():
+		print l
+		np.save('debug/'+l+'_train',np.array(net.params[l][0].data))
+
+
+
+
+
+
+if False:
 	net = caffe.Net('/home-4/yixi@umd.edu/work/yixi/segnet/repcamvid/segnet_basic_train.prototxt','/home-4/yixi@umd.edu/work/yixi/segnet/repcamvid/snapshots/rtlr0.1_iter_11100.caffemodel',caffe.TEST)
 	net.forward()
 	np.save('norm0',np.array(net.blobs['norm'].data))
