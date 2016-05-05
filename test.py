@@ -14,28 +14,38 @@ sys.path.insert(0, caffe_root + 'python')
 import caffe
 
 if True:
-	net2 = caffe.Net('/home-4/yixi@umd.edu/work/yixi/segnet/segnetf1/segnet_basic_train.prototxt','/home-4/yixi@umd.edu/work/yixi/segnet/segnetf1/basic_camvid_surg.caffemodel', caffe.TEST)
-	net1 = caffe.Net('/home-4/yixi@umd.edu/work/yixi/segnet/segnetf1/segnet_basic_train.prototxt','/home-4/yixi@umd.edu/segnet/trainedrgb_surg.caffemodel',caffe.TEST)
-	net0 = caffe.Net('/home-4/yixi@umd.edu/segnet/segnet_basic_train_rgb.prototxt', '/home-4/yixi@umd.edu/segnet/snapshots/rgblr0.1_iter_8000.caffemodel',caffe.TEST)
+
+	net3 = caffe.Net('/home-4/yixi@umd.edu/work/yixi/segnet/repcamvid/segnet_basic_train.prototxt','/scratch/groups/lsdavis/yixi/segnet/repcamvid/snapshots/bs10lr0.1_iter_4200.caffemodel', caffe.TEST)
+	net2 = caffe.Net('/home-4/yixi@umd.edu/work/yixi/segnet/segnetf1/segnet_basic_train.prototxt','/home-4/yixi@umd.edu/segnet/snapshots/trgbbs10learngglr1e-1fixed_iter_900.caffemodel', caffe.TEST)
+	net1=net2
+	#net1 = caffe.Net('/home-4/yixi@umd.edu/work/yixi/segnet/segnetf1/segnet_basic_train.prototxt','/home-4/yixi@umd.edu/segnet/trainedrgb_surg.caffemodel',caffe.TEST)
+	#net0 = caffe.Net('/home-4/yixi@umd.edu/segnet/segnet_basic_train_rgb.prototxt', '/home-4/yixi@umd.edu/segnet/snapshots/rgblr0.1_iter_8000.caffemodel',caffe.TEST)
+	net0=net3
+	print 'net1-----------------------------------'
 	for l in net1.params.keys():
 		print l
 		if l in net0.params.keys():
 			print np.sum((net1.params[l][0].data-net0.params[l][0].data)**2)
 		else:
 			np.save('debug/'+l+'_1', np.array(net1.params[l][0].data))
+	print 'net0--------------------------------------'
 	for l in net0.params.keys():
+		print l
 		if not (l in net1.params.keys()):
+			print 'boom *************************'
 			np.save('debug/'+l+'_0', np.array(net0.params[l][0].data))
-
+	
+	print 'net1 blobs------------------------------------'
 	for b in net1.blobs.keys():
 		print b
 		if b in net0.blobs.keys() and net1.blobs[b].data.shape==net0.blobs[b].data.shape:
 			print np.sum((net1.blobs[b].data-net0.blobs[b].data)**2)
 		else:
-			np.save('debug/'+b+'_1', np.array(net1.blobs[b].data))
+			np.save('debug/'+b+'_b1', np.array(net1.blobs[b].data))
+	print 'net0 blobs------------------------------------'
 	for b in net0.blobs.keys():
 		if not (b in net1.blobs.keys()) or net1.blobs[b].data.shape!=net0.blobs[b].data.shape:
-			np.save('debug/'+b+'_0', np.array(net0.blobs[b].data))
+			np.save('debug/'+b+'_b0', np.array(net0.blobs[b].data))
 
 
 

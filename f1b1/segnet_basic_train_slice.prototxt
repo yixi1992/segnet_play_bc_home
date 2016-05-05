@@ -100,6 +100,17 @@ layer {
   }
 }
 layer {
+	name: "slicer_flow"
+	type: "Slice"
+	bottom: "flow"
+	top: "f1"
+	top: "b1"
+	slice_param {
+		axis: 1
+		slice_point: 2
+	}
+}
+layer {
   name: "normdata"
   type: "LRN"
   bottom: "data"
@@ -110,12 +121,22 @@ layer {
     beta: 0.75
   }
 }
-
 layer {
-  name: "normflow"
+  name: "normf1"
   type: "LRN"
-  bottom: "flow"
-  top: "normflow"
+  bottom: "f1"
+  top: "normf1"
+  lrn_param {
+    local_size: 5
+    alpha: 0.0001
+    beta: 0.75
+  }
+}
+layer {
+  name: "normfb1"
+  type: "LRN"
+  bottom: "b1"
+  top: "normb1"
   lrn_param {
     local_size: 5
     alpha: 0.0001
@@ -125,7 +146,8 @@ layer {
 layer {
 	name: "concat" 
 	bottom: "normdata" 
-	bottom: "normflow" 
+	bottom: "normf1"
+	bottom: "normb1" 
 	top: "norm" 
 	type: "Concat" 
 	concat_param { axis: 1 } 
