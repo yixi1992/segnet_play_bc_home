@@ -9,11 +9,11 @@
 #SBATCH --job-name="f1inference"
 #SBATCH --gres=gpu:1
 #SBATCH --partition=gpu
-#SBATCH --mem=8000
+#SBATCH --mem=5000
 
-xixi='trgbbs10learngglr1e-4fixed'
-bs10=true
-iter_s=4000
+xixi='trgbbs10learngglr1e-3fixed'
+bs10=false
+iter_s=7000
 iter_e=10000
 iter_gap=1000
 
@@ -41,13 +41,13 @@ do
 	if [ $n = 0 ];
 	then
 		caffemodel=${work_dir}/trainedrgb_surg.caffemodel
-		if [ $bs10 ];
+		if [ "$bs10" = true ];
 		then
 			caffemodel=${cur_dir}/trainedrgbbs10_surg.caffemodel
 		fi
 	fi
 	trainprototxt=${work_dir}/segnet_basic_train.prototxt
-	if [ $bs10 ];
+	if [ "$bs10" = true ];
 	then
 		trainprototxt=${work_dir}/segnet_basic_train_batchsize.prototxt
 	fi
