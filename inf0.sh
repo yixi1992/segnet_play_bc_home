@@ -11,10 +11,10 @@
 #SBATCH --partition=gpu
 #SBATCH --mem=8000
 
-xixi='trgblearngglr1e-5fixed'
-bs10=false
-iter_s=11000
-iter_e=14000
+xixi='trgbbs10learngglr1e-4fixed'
+bs10=true
+iter_s=4000
+iter_e=10000
 iter_gap=1000
 
 cur_dir='/home-4/yixi@umd.edu/segnet/'

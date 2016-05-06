@@ -83,7 +83,7 @@ layer {
   }
 }
 layer {
-  name: "normfb1"
+  name: "normb1"
   type: "LRN"
   bottom: "b1"
   top: "normb1"

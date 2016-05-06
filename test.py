@@ -15,12 +15,15 @@ import caffe
 
 if True:
 
-	net3 = caffe.Net('/home-4/yixi@umd.edu/work/yixi/segnet/repcamvid/segnet_basic_train.prototxt','/scratch/groups/lsdavis/yixi/segnet/repcamvid/snapshots/bs10lr0.1_iter_4200.caffemodel', caffe.TEST)
-	net2 = caffe.Net('/home-4/yixi@umd.edu/work/yixi/segnet/segnetf1/segnet_basic_train.prototxt','/home-4/yixi@umd.edu/segnet/snapshots/trgbbs10learngglr1e-1fixed_iter_900.caffemodel', caffe.TEST)
-	net1=net2
+	net4 = caffe.Net('/home-4/yixi@umd.edu/segnet/f1b1/segnet_basic_inference_slice.prototxt','/home-4/yixi@umd.edu/segnet/f1b1/inference/f1b1slicelr1e-1fixed_iter_0/test_weights.caffemodel', caffe.TEST);
+	#net4 = caffe.Net('/home-4/yixi@umd.edu/segnet/f1b1/segnet_basic_train_slice.prototxt','/home-4/yixi@umd.edu/segnet/f1b1/trainedf1bs10_surg.caffemodel', caffe.TEST);
+	#net3 = caffe.Net('/home-4/yixi@umd.edu/work/yixi/segnet/repcamvid/segnet_basic_train.prototxt','/scratch/groups/lsdavis/yixi/segnet/repcamvid/snapshots/bs10lr0.1_iter_4200.caffemodel', caffe.TEST)
+	net2 = caffe.Net('/home-4/yixi@umd.edu/work/yixi/segnet/segnetf1/segnet_basic_inference.prototxt','/home-4/yixi@umd.edu/segnet/inference/trgbbs10learngglr1e-1fixed_iter_900/test_weights.caffemodel', caffe.TEST)
+	#net2 = caffe.Net('/home-4/yixi@umd.edu/work/yixi/segnet/segnetf1/segnet_basic_train_batchsize.prototxt','/home-4/yixi@umd.edu/segnet/snapshots/trgbbs10learngglr1e-1fixed_iter_900.caffemodel', caffe.TEST)
+	net1=net4
 	#net1 = caffe.Net('/home-4/yixi@umd.edu/work/yixi/segnet/segnetf1/segnet_basic_train.prototxt','/home-4/yixi@umd.edu/segnet/trainedrgb_surg.caffemodel',caffe.TEST)
 	#net0 = caffe.Net('/home-4/yixi@umd.edu/segnet/segnet_basic_train_rgb.prototxt', '/home-4/yixi@umd.edu/segnet/snapshots/rgblr0.1_iter_8000.caffemodel',caffe.TEST)
-	net0=net3
+	net0=net2
 	print 'net1-----------------------------------'
 	for l in net1.params.keys():
 		print l

@@ -13,7 +13,7 @@ layer {
   }
   data_param {
     source: "camvidtrainvalfmp480360f1b1np_lmdb/train-lmdb"
-    batch_size: 6
+    batch_size: 10
     backend: LMDB
   }
 }
@@ -32,7 +32,7 @@ layer {
   }
   data_param {
     source: "camvidtrainvalfmp480360f1b1np_lmdb/train-flow-lmdb"
-    batch_size: 6
+    batch_size: 10
     backend: LMDB
   }
 }
@@ -45,7 +45,7 @@ layer {
   }
   data_param {
     source: "camvidtrainvalfmp480360f1b1np_lmdb/train-label-lmdb"
-    batch_size: 6
+    batch_size: 10
     backend: LMDB
   }
 }
@@ -63,7 +63,7 @@ layer {
   }
   data_param {
     source: "camvidtrainvalfmp480360f1b1np_lmdb/val-lmdb"
-    batch_size: 6
+    batch_size: 10
     backend: LMDB
   }
 }
@@ -82,7 +82,7 @@ layer {
   }
   data_param {
     source: "camvidtrainvalfmp480360f1b1np_lmdb/val-flow-lmdb"
-    batch_size: 6
+    batch_size: 10
     backend: LMDB
   }
 }
@@ -95,7 +95,7 @@ layer {
   }
   data_param {
     source: "camvidtrainvalfmp480360f1b1np_lmdb/val-label-lmdb"
-    batch_size: 6
+    batch_size: 10
     backend: LMDB
   }
 }
@@ -103,7 +103,7 @@ layer {
   name: "normdata"
   type: "LRN"
   bottom: "data"
-  top: "normdata"
+  top: "data"
   lrn_param {
     local_size: 5
     alpha: 0.0001
@@ -115,7 +115,7 @@ layer {
   name: "normflow"
   type: "LRN"
   bottom: "flow"
-  top: "normflow"
+  top: "flow"
   lrn_param {
     local_size: 5
     alpha: 0.0001
@@ -124,8 +124,8 @@ layer {
 }
 layer {
 	name: "concat" 
-	bottom: "normdata" 
-	bottom: "normflow" 
+	bottom: "data" 
+	bottom: "flow" 
 	top: "norm" 
 	type: "Concat" 
 	concat_param { axis: 1 } 
@@ -603,15 +603,6 @@ layer {
     }
   }
 }
-#layer {
-#  name: "argmax"
-#  type: "ArgMax"
-#  bottom: "conv_classifier"
-#  top: "argmax"
-#  argmax_param {
-#    axis: 1
-#  }
-#}
 layer {
   name: "loss"
   type: "SoftmaxWithLoss"
@@ -639,7 +630,6 @@ layer {
   name: "accuracy"
   type: "Accuracy"
   bottom: "conv_classifier"
-  #bottom: "argmax"
   bottom: "label"
   top: "accuracy"
   top: "per_class_accuracy"

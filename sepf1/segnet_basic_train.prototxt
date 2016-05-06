@@ -119,59 +119,101 @@ layer {
   }
 }
 layer {
+  name: "conv1_flow"
+  type: "Convolution"
+  bottom: "normflow"
+  top: "conv1_flow"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 64
+    kernel_size: 7
+    pad: 3
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  bottom: "conv1_flow"
+  top: "conv1_flow"
+  name: "conv1_flow_bn"
+  type: "BN"
+  bn_param {
+	bn_mode: LEARN
+	scale_filler {
+	  type: "constant"
+	  value: 1
+	}
+	shift_filler {
+	  type: "constant"
+	  value: 0.001
+	}
+ }
+}
+layer {
+  name: "conv1"
+  type: "Convolution"
+  bottom: "norm"
+  top: "conv1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 64
+    kernel_size: 7
+    pad: 3
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  bottom: "conv1"
+  top: "conv1"
+  name: "conv1_bn"
+  type: "BN"
+  bn_param {
+	bn_mode: LEARN
+	scale_filler {
+	  type: "constant"
+	  value: 1
+	}
+	shift_filler {
+	  type: "constant"
+	  value: 0.001
+	}
+ }
+}
+layer {
 	name: "concat" 
-	bottom: "normdata" 
-	bottom: "normflow" 
-	top: "norm" 
+	bottom: "conv1" 
+	bottom: "conv1_flow" 
+	top: "conv1_concat" 
 	type: "Concat" 
 	concat_param { axis: 1 } 
 }
 layer {
-  name: "conv1_flow"
-  type: "Convolution"
-  bottom: "norm"
-  top: "conv1"
-  param {
-    lr_mult: 1
-    decay_mult: 1
-  }
-  param {
-    lr_mult: 2
-    decay_mult: 0
-  }
-  convolution_param {
-    num_output: 64
-    kernel_size: 7
-    pad: 3
-    weight_filler {
-      type: "msra"
-    }
-    bias_filler {
-      type: "constant"
-    }
-  }
-}
-layer {
-  bottom: "conv1"
-  top: "conv1"
-  name: "conv1_bn"
-  type: "BN"
-  bn_param {
-	bn_mode: LEARN
-	scale_filler {
-	  type: "constant"
-	  value: 1
-	}
-	shift_filler {
-	  type: "constant"
-	  value: 0.001
-	}
- }
-}
-layer {
   name: "relu1"
   type: "ReLU"
-  bottom: "conv1"
+  bottom: "conv1_concat"
   top: "conv1"
 }
 layer {
@@ -186,248 +228,9 @@ layer {
     stride: 2
   }
 }
+
 layer {
-  name: "conv1_flow"
-  type: "Convolution"
-  bottom: "norm"
-  top: "conv1"
-  param {
-    lr_mult: 1
-    decay_mult: 1
-  }
-  param {
-    lr_mult: 2
-    decay_mult: 0
-  }
-  convolution_param {
-    num_output: 64
-    kernel_size: 7
-    pad: 3
-    weight_filler {
-      type: "msra"
-    }
-    bias_filler {
-      type: "constant"
-    }
-  }
-}
-layer {
-  bottom: "conv1"
-  top: "conv1"
-  name: "conv1_bn"
-  type: "BN"
-  bn_param {
-	bn_mode: LEARN
-	scale_filler {
-	  type: "constant"
-	  value: 1
-	}
-	shift_filler {
-	  type: "constant"
-	  value: 0.001
-	}
- }
-}
-layer {
-  name: "relu1"
-  type: "ReLU"
-  bottom: "conv1"
-  top: "conv1"
-}
-layer {
-  name: "pool1"
-  type: "Pooling"
-  bottom: "conv1"
-  top: "pool1"
-  top: "pool1_mask"
-  pooling_param {
-    pool: MAX
-    kernel_size: 2
-    stride: 2
-  }
-}
-llayer {
-  name: "conv1_flow"
-  type: "Convolution"
-  bottom: "norm"
-  top: "conv1"
-  param {
-    lr_mult: 1
-    decay_mult: 1
-  }
-  param {
-    lr_mult: 2
-    decay_mult: 0
-  }
-  convolution_param {
-    num_output: 64
-    kernel_size: 7
-    pad: 3
-    weight_filler {
-      type: "msra"
-    }
-    bias_filler {
-      type: "constant"
-    }
-  }
-}
-layer {
-  bottom: "conv1"
-  top: "conv1"
-  name: "conv1_bn"
-  type: "BN"
-  bn_param {
-	bn_mode: LEARN
-	scale_filler {
-	  type: "constant"
-	  value: 1
-	}
-	shift_filler {
-	  type: "constant"
-	  value: 0.001
-	}
- }
-}
-layer {
-  name: "relu1"
-  type: "ReLU"
-  bottom: "conv1"
-  top: "conv1"
-}
-layer {
-  name: "pool1"
-  type: "Pooling"
-  bottom: "conv1"
-  top: "pool1"
-  top: "pool1_mask"
-  pooling_param {
-    pool: MAX
-    kernel_size: 2
-    stride: 2
-  }
-}
-llayer {
-  name: "conv1_flow"
-  type: "Convolution"
-  bottom: "norm"
-  top: "conv1"
-  param {
-    lr_mult: 1
-    decay_mult: 1
-  }
-  param {
-    lr_mult: 2
-    decay_mult: 0
-  }
-  convolution_param {
-    num_output: 64
-    kernel_size: 7
-    pad: 3
-    weight_filler {
-      type: "msra"
-    }
-    bias_filler {
-      type: "constant"
-    }
-  }
-}
-layer {
-  bottom: "conv1"
-  top: "conv1"
-  name: "conv1_bn"
-  type: "BN"
-  bn_param {
-	bn_mode: LEARN
-	scale_filler {
-	  type: "constant"
-	  value: 1
-	}
-	shift_filler {
-	  type: "constant"
-	  value: 0.001
-	}
- }
-}
-layer {
-  name: "relu1"
-  type: "ReLU"
-  bottom: "conv1"
-  top: "conv1"
-}
-layer {
-  name: "pool1"
-  type: "Pooling"
-  bottom: "conv1"
-  top: "pool1"
-  top: "pool1_mask"
-  pooling_param {
-    pool: MAX
-    kernel_size: 2
-    stride: 2
-  }
-}
-layer {
-  name: "conv1_flow"
-  type: "Convolution"
-  bottom: "norm"
-  top: "conv1"
-  param {
-    lr_mult: 1
-    decay_mult: 1
-  }
-  param {
-    lr_mult: 2
-    decay_mult: 0
-  }
-  convolution_param {
-    num_output: 64
-    kernel_size: 7
-    pad: 3
-    weight_filler {
-      type: "msra"
-    }
-    bias_filler {
-      type: "constant"
-    }
-  }
-}
-layer {
-  bottom: "conv1"
-  top: "conv1"
-  name: "conv1_bn"
-  type: "BN"
-  bn_param {
-	bn_mode: LEARN
-	scale_filler {
-	  type: "constant"
-	  value: 1
-	}
-	shift_filler {
-	  type: "constant"
-	  value: 0.001
-	}
- }
-}
-layer {
-  name: "relu1"
-  type: "ReLU"
-  bottom: "conv1"
-  top: "conv1"
-}
-layer {
-  name: "pool1"
-  type: "Pooling"
-  bottom: "conv1"
-  top: "pool1"
-  top: "pool1_mask"
-  pooling_param {
-    pool: MAX
-    kernel_size: 2
-    stride: 2
-  }
-}
-layer {
-  name: "conv2"
+  name: "conv2_flow"
   type: "Convolution"
   bottom: "pool1"
   top: "conv2"
