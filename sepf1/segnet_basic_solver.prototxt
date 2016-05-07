@@ -1,4 +1,4 @@
-net: "/home-4/yixi@umd.edu/segnet/repf1/segnet_basic_train.prototxt"  		# Change this to the absolute path to your model file
+net: "/home-4/yixi@umd.edu/segnet/sepf1/segnet_basic_train.prototxt"  		# Change this to the absolute path to your model file
 test_initialization: true
 test_iter: 10
 test_interval: 1000
