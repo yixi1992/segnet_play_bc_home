@@ -8,11 +8,15 @@ import sys, getopt
 
 def surgery(fromdeploy_file, todeploy_file, caffemodel_file, output_file, fl, tl):
 
-	# Load the fully convolutional network to transplant the parameters.
-	net_full_conv = caffe.Net(todeploy_file, caffemodel_file, caffe.TEST)
 	net = caffe.Net(fromdeploy_file, caffemodel_file, caffe.TEST)
-
-
+	print 'net loaded successfully'
+	print 'layer_names:'
+	for pr in net.params:
+		print pr
+	print '-----------------'
+	net_full_conv = caffe.Net(todeploy_file, caffemodel_file, caffe.TEST)
+	print 'net_full_conv loaded successfully'
+	
 	params_full_conv = tl
 	conv_params = {pr: [net_full_conv.params[pr][i].data for i in range(len(net_full_conv.params[pr]))] for pr in params_full_conv}
 	for conv in params_full_conv:
