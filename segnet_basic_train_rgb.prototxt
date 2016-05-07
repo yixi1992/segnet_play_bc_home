@@ -13,7 +13,7 @@ layer {
   }
   data_param {
     source: "/scratch/groups/lsdavis/yixi/segnet/segnetf1/camvidtrainvalfmp480360f1np_lmdb/train-lmdb"
-    batch_size: 4
+    batch_size: 10
     backend: LMDB
   }
 }
@@ -26,7 +26,7 @@ layer {
   }
   data_param {
     source: "/scratch/groups/lsdavis/yixi/segnet/segnetf1/camvidtrainvalfmp480360f1np_lmdb/train-label-lmdb"
-    batch_size: 4
+    batch_size: 10
     backend: LMDB
   }
 }
@@ -44,7 +44,7 @@ layer {
   }
   data_param {
     source: "/scratch/groups/lsdavis/yixi/segnet/segnetf1/camvidtrainvalfmp480360f1np_lmdb/val-lmdb"
-    batch_size: 4
+    batch_size: 10
     backend: LMDB
   }
 }
@@ -57,7 +57,7 @@ layer {
   }
   data_param {
     source: "/scratch/groups/lsdavis/yixi/segnet/segnetf1/camvidtrainvalfmp480360f1np_lmdb/val-label-lmdb"
-    batch_size: 4
+    batch_size: 10
     backend: LMDB
   }
 }
