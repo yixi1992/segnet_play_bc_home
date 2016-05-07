@@ -12,9 +12,9 @@
 #SBATCH --mem=5000
 
 xixi='trgbbs10learngglr1e-3fixed'
-bs10=false
-iter_s=7000
-iter_e=10000
+bs10=true
+iter_s=16000
+iter_e=16000
 iter_gap=1000
 
 cur_dir='/home-4/yixi@umd.edu/segnet/'
