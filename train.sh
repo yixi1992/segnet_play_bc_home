@@ -26,5 +26,5 @@ cd ~/work/yixi/segnet/segnetf1/
 
 #~/work/yixi/software/caffe-segnet/build/tools/caffe train -gpu 0 -solver ~/work/yixi/segnet/segnetf1/segnet_basic_solver.prototxt -snapshot /home-4/yixi@umd.edu/segnet/snapshots/scratchgglr1e-1fixed_iter_12100.solverstate
 
-~/work/yixi/software/caffe-segnet/build/tools/caffe train -gpu 0 -solver ~/segnet/segnet_basic_solver.prototxt
+~/work/yixi/software/caffe-segnet/build/tools/caffe train -gpu 0 -solver ~/segnet/segnet_basic_solver.prototxt -snapshot /home-4/yixi@umd.edu/segnet/snapshots/rgbbs10lr0.1_iter_4000.solverstate
 #~/work/yixi/software/caffe-segnet/build/tools/caffe train -gpu 0 -solver ~/segnet/segnet_basic_solver.prototxt -weights ~/work/yixi/segnet/segnetf1/basic_camvid_surg.caffemodel
