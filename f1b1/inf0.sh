@@ -11,12 +11,12 @@
 #SBATCH --partition=gpu
 #SBATCH --mem=5000
 
-xixi='f1b1trgbbs10lr1e-3fixed'
+xixi='f1b1trgbslicelr1e-3fixed'
 bs=true
 slice=false
 fromrgb=true
-iter_s=13000
-iter_e=20000
+iter_s=16000
+iter_e=30000
 iter_gap=1000
 
 cur_dir='/home-4/yixi@umd.edu/segnet/f1b1/'

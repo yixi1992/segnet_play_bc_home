@@ -13,7 +13,7 @@ layer {
   }
   data_param {
     source: "/scratch/groups/lsdavis/yixi/segnet/segnetf1/camvidtrainvalfmp480360f1np_lmdb/train-lmdb"
-    batch_size: 10
+    batch_size: 4
     backend: LMDB
   }
 }
@@ -30,7 +30,7 @@ layer {
   }
   data_param {
     source: "/scratch/groups/lsdavis/yixi/segnet/segnetf1/camvidtrainvalfmp480360f1np_lmdb/train-flow-lmdb"
-    batch_size: 10
+    batch_size: 4
     backend: LMDB
   }
 }
@@ -43,7 +43,7 @@ layer {
   }
   data_param {
     source: "/scratch/groups/lsdavis/yixi/segnet/segnetf1/camvidtrainvalfmp480360f1np_lmdb/train-label-lmdb"
-    batch_size: 10
+    batch_size: 4
     backend: LMDB
   }
 }
@@ -61,7 +61,7 @@ layer {
   }
   data_param {
     source: "/scratch/groups/lsdavis/yixi/segnet/segnetf1/camvidtrainvalfmp480360f1np_lmdb/val-lmdb"
-    batch_size: 10
+    batch_size: 4
     backend: LMDB
   }
 }
@@ -78,7 +78,7 @@ layer {
   }
   data_param {
     source: "/scratch/groups/lsdavis/yixi/segnet/segnetf1/camvidtrainvalfmp480360f1np_lmdb/val-flow-lmdb"
-    batch_size: 10
+    batch_size: 4
     backend: LMDB
   }
 }
@@ -91,7 +91,7 @@ layer {
   }
   data_param {
     source: "/scratch/groups/lsdavis/yixi/segnet/segnetf1/camvidtrainvalfmp480360f1np_lmdb/val-label-lmdb"
-    batch_size: 10
+    batch_size: 4
     backend: LMDB
   }
 }
@@ -99,7 +99,7 @@ layer {
   name: "normdata"
   type: "LRN"
   bottom: "data"
-  top: "normdata"
+  top: "data"
   lrn_param {
     local_size: 5
     alpha: 0.0001
@@ -111,7 +111,7 @@ layer {
   name: "normflow"
   type: "LRN"
   bottom: "flow"
-  top: "normflow"
+  top: "flow"
   lrn_param {
     local_size: 5
     alpha: 0.0001
@@ -121,7 +121,7 @@ layer {
 layer {
   name: "conv1_flow"
   type: "Convolution"
-  bottom: "normflow"
+  bottom: "flow"
   top: "conv1_flow"
   param {
     lr_mult: 1
@@ -163,7 +163,7 @@ layer {
 layer {
   name: "conv1"
   type: "Convolution"
-  bottom: "normdata"
+  bottom: "data"
   top: "conv1"
   param {
     lr_mult: 1
