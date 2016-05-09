@@ -7,7 +7,7 @@ from argparse import ArgumentParser
 
 
 
-caffe_root = '/scratch/groups/lsdavis/yixi/software/caffe-segnet/' 			# Change this to the absolute directoy to SegNet Caffe
+caffe_root = '/scratch/groups/lsdavis/yixi/software/caffe-segnet-yixi/' 			# Change this to the absolute directoy to SegNet Caffe
 import sys
 sys.path.insert(0, caffe_root + 'python')
 
@@ -188,8 +188,10 @@ if __name__ == '__main__':
     #train_ims, train_labs = extract_dataset(testable_msg)
     #train_size = len(train_ims)
     train_size = 367
-    minibatch_size = testable_msg.layer[0].data_param.batch_size
-    #minibatch_size = testable_msg.layer[0].dense_image_data_param.batch_size
+    if testable_msg.layer[0].data_param.batch_size:
+	minibatch_size = testable_msg.layer[0].data_param.batch_size
+    else:
+	minibatch_size = testable_msg.layer[0].flow_image_data_param.batch_size
     num_iterations = train_size // minibatch_size + train_size % minibatch_size
     in_h, in_w =(360, 480)
     test_net, test_msg = make_test_files(BN_calc_path, args.weights, num_iterations,

@@ -1,100 +1,55 @@
 name: "segnet"
 layer {
-  name: "data"
+  name: "pile"
   type: "Data"
-  top: "data"
-  include {
-    phase: TRAIN
-  }
-  transform_param {
-   	mean_value: 0
-	mean_value: 0
-	mean_value: 0
-  }
-  data_param {
-    source: "/scratch/groups/lsdavis/yixi/segnet/segnetf1/camvidtrainvalfmp480360f1np_lmdb/train-lmdb"
-    batch_size: 4
-    backend: LMDB
-  }
-}
-layer {
-  name: "flow"
-  type: "Data"
-  top: "flow"
-  include {
-    phase: TRAIN
-  }
-  transform_param {
-   	mean_value: 0
-	mean_value: 0
-  }
-  data_param {
-    source: "/scratch/groups/lsdavis/yixi/segnet/segnetf1/camvidtrainvalfmp480360f1np_lmdb/train-flow-lmdb"
-    batch_size: 4
-    backend: LMDB
-  }
-}
-layer {
-  name: "label"
-  type: "Data"
-  top: "label"
+  top: "pile"
   include {
     phase: TRAIN
   }
   data_param {
-    source: "/scratch/groups/lsdavis/yixi/segnet/segnetf1/camvidtrainvalfmp480360f1np_lmdb/train-label-lmdb"
+    source: "/scratch/groups/lsdavis/yixi/segnet/segnetf1/camvidpiletrainvalfmp480360f1b1f2b2f4b4np_lmdb/train-pile-lmdb"
     batch_size: 4
     backend: LMDB
+    shuffle: true
   }
 }
 layer {
-  name: "data"
+  name: "pile"
   type: "Data"
-  top: "data"
-  include {
-    phase: TEST
-  }
-  transform_param {
-   	mean_value: 0
-	mean_value: 0
-	mean_value: 0
-  }
-  data_param {
-    source: "/scratch/groups/lsdavis/yixi/segnet/segnetf1/camvidtrainvalfmp480360f1np_lmdb/val-lmdb"
-    batch_size: 4
-    backend: LMDB
-  }
-}
-layer {
-  name: "flow"
-  type: "Data"
-  top: "flow"
-  include {
-    phase: TEST
-  }
-  transform_param {
-   	mean_value: 0
-	mean_value: 0
-  }
-  data_param {
-    source: "/scratch/groups/lsdavis/yixi/segnet/segnetf1/camvidtrainvalfmp480360f1np_lmdb/val-flow-lmdb"
-    batch_size: 4
-    backend: LMDB
-  }
-}
-layer {
-  name: "label"
-  type: "Data"
-  top: "label"
+  top: "pile"
   include {
     phase: TEST
   }
   data_param {
-    source: "/scratch/groups/lsdavis/yixi/segnet/segnetf1/camvidtrainvalfmp480360f1np_lmdb/val-label-lmdb"
+    source: "/scratch/groups/lsdavis/yixi/segnet/segnetf1/camvidpiletrainvalfmp480360f1b1f2b2f4b4np_lmdb/val-pile-lmdb"
     batch_size: 4
     backend: LMDB
+    shuffle: true
   }
 }
+layer {
+	name: "slicer_pile"
+	type: "Slice"
+	bottom: "pile"
+	top: "data"
+	top: "label"
+	top: "f1"
+	top: "b1"
+	top: "f2"
+	top: "b2"
+	top: "f4"
+	top: "b4"
+	slice_param {
+		axis: 1
+		slice_point: 3
+		slice_point: 4
+		slice_point: 6
+		slice_point: 8
+		slice_point: 10
+		slice_point: 12
+		slice_point: 14
+	}
+}	
 layer {
   name: "normdata"
   type: "LRN"
