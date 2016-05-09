@@ -16,7 +16,7 @@ bs=false
 slice=false
 fromrgb=true
 fidl=true
-iter_s=0
+iter_s=1000
 iter_e=1000
 iter_gap=1000
 
@@ -35,7 +35,7 @@ do
 		caffemodel=${cur_dir}/trainedf1bs10_surg.caffemodel
 		if [ "$fromrgb" = true ];
 		then
-			caffemodel=${cur_dir}/trainedrgbbs10_surg.caffemodel
+			caffemodel=${cur_dir}/trainedrgbbs10conv2flow_surg.caffemodel
 		fi
 	fi
 	
@@ -60,6 +60,10 @@ do
 	if [ "$slice" = true ];
 	then
 		inferenceprototxt=${cur_dir}/segnet_basic_inference_slice.prototxt
+	else if [ "$fidl" = true ];
+		then
+			inferenceprototxt=${cur_dir}/segnet_basic_inference_fidl.prototxt
+		fi
 	fi
 	echo $bs
 	echo $slice

@@ -43,10 +43,11 @@ def make_testable(train_model_path):
     # remove the test data layer if present
     to_remove_layers = []
     for layer in train_net.layer:
-	if layer.type == "Data" and layer.include and layer.include[0].phase==1:
-		to_remove_layers.append(layer)
-	elif layer.type == "Data" and layer.include:
-		layer.include.remove(layer.include[0])
+	if layer.type == "Data" or layer.name=="data":
+		if layer.include and layer.include[0].phase==1:
+			to_remove_layers.append(layer)
+		elif layer.include:
+			layer.include.remove(layer.include[0])
     for layer in to_remove_layers:
 	train_net.layer.remove(layer)
     #if train_net.layer[1].name == "data" and train_net.layer[1].include:

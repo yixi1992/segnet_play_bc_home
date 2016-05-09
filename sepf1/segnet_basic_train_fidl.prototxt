@@ -4,8 +4,27 @@ layer {
   type: "FlowImageData"
   top: "data0"
   top: "label"
+  include {
+    phase: TRAIN
+  }
   flow_image_data_param {
     source: "/scratch/groups/lsdavis/yixi/segnet/segnetf1/camvidpiletrainvalfmp480360f1np_txts/train.txt"
+    batch_size: 4
+    shuffle: true
+    new_height: 360
+    new_width: 480
+  }
+}
+layer {
+  name: "data"
+  type: "FlowImageData"
+  top: "data0"
+  top: "label"
+  include {
+    phase: TEST
+  }
+  flow_image_data_param {
+    source: "/scratch/groups/lsdavis/yixi/segnet/segnetf1/camvidpiletrainvalfmp480360f1np_txts/test.txt"
     batch_size: 4
     shuffle: true
     new_height: 360
