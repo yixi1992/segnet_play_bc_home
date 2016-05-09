@@ -6,7 +6,7 @@
 #SBATCH --mail-user=yixi@cs.umd.edu
 ##SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
-#SBATCH --job-name="f1b1inference"
+#SBATCH --job-name="sepf1inference"
 #SBATCH --gres=gpu:1
 #SBATCH --partition=gpu
 #SBATCH --mem=5000
