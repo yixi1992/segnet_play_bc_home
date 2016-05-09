@@ -1,8 +1,8 @@
-net: "/home-4/yixi@umd.edu/segnet/segnet_basic_train_rgb.prototxt"  		# Change this to the absolute path to your model file
+net: "/home-4/yixi@umd.edu/work/yixi/segnet/segnetf1/segnet_basic_train_fidl.prototxt"  		# Change this to the absolute path to your model file
 test_initialization: true
-test_iter: 10
+test_iter: 25
 test_interval: 1000
-base_lr: 0.1
+base_lr: 1e-3
 lr_policy: "fixed"
 gamma: 0.9
 stepsize: 100
@@ -11,6 +11,6 @@ display: 20
 max_iter: 20000
 weight_decay: 0.0005
 snapshot: 100
-snapshot_prefix: "/home-4/yixi@umd.edu/segnet/snapshots/rgbbs10lr0.1"  	# Change this to the absolute path to where you wish to output solver snapshots
+snapshot_prefix: "/home-4/yixi@umd.edu/work/yixi/segnet/segnetf1/snapshots/f1trgbfidlbs4lr1e-3fixed"  	# Change this to the absolute path to where you wish to output solver snapshots
 solver_mode: GPU 
 #solver_type: ADAGRAD
